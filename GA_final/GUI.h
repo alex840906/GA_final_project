@@ -1,18 +1,52 @@
 /* UI function */
+void init_setting();
+void init_map(vector<vector<int>>&);
 void debug_print_map();
 void draw_grid();
 void update_map_of_warehouse(vector<vector<int>>&, vector<int>&, int);
 void init_worker(int, int, vector<int>&);
 void init_redbox();
 void draw_wall(vector<vector<int> > &, int);
-void draw_circle(int, int);
+void draw_circle(int, int); 
 void draw_rectangle(int, int);
 void draw_yellow_rectangle(int, int);
 void draw_red_rectangle(int, int);
 void draw_purple_rectangle(int, int);
 void map_1();
+void init_yellowbox();
 int if_yellowbox_on_target();
 
+
+void init_setting()
+{
+	/* 文字 */
+	putText(img, "circle: worker", Point(30, 30), 3, 0.8, Scalar(255, 181, 181), 1, CV_AA);
+	putText(img, "yellow rectangle: box", Point(30, 60), 3, 0.8, Scalar(15, 185, 255), 1, CV_AA);
+	putText(img, "red rectangle: destination", Point(30, 90), 3, 0.8, Scalar(0, 0, 205), 1, CV_AA);
+	/* 畫格子 */
+	draw_grid();
+	init_map(map_of_warehouse);
+	/* 初始化設定 */
+	/* 可走的路 = 0, 牆壁 = 1, 圓形 = 2, 黃箱 = 3, 紅箱 = 4 */
+	draw_wall(map_of_warehouse, n);
+	init_worker(6, 3, map_of_worker);
+	draw_yellow_rectangle(7, 3);
+	draw_red_rectangle(8, 3);
+}
+void init_map(vector<vector<int>>& map_of_warehouse)
+{
+	map_of_warehouse.resize(10);
+	for (int i = 0; i < 10; i++)
+	{
+		map_of_warehouse[i].resize(10);
+	}
+
+	for(int i=0;i<10;i++)
+		for (int j = 0; j < 10; j++)
+		{
+			map_of_warehouse[i][j] = 0;
+		}
+}
 void debug_print_map()
 {
 	for (int i = 0; i < n; i++)
@@ -43,28 +77,28 @@ void init_worker(int x, int y, vector<int> &map_of_worker)
 }
 void init_redbox()
 {
-	int num;
+	//int num;
 	int x, y;
-	cin >> num;
-	map_of_redbox.resize(num);
+	cin >> num_red;
+	map_of_redbox.resize(num_red);
 
-	for (int i = 0; i < num; i++)
+	for (int i = 0; i < num_red; i++)
 	{
 		cin >> x >> y;
 		map_of_redbox[i].push_back(x);
 		map_of_redbox[i].push_back(y);
 	}
 
-	for (int i = 0; i < num; i++)
+	for (int i = 0; i < num_red; i++)
 		draw_red_rectangle(map_of_redbox[i][0], map_of_redbox[i][1]);
 }
 
 void draw_wall(vector<vector<int> > &map_of_warehouse, int n)
 {
-	map_of_warehouse.resize(n);
+	//map_of_warehouse.resize(n);
 
-	for (int i = 0; i < n; i++)
-		map_of_warehouse[i].resize(n);
+	/*for (int i = 0; i < n; i++)
+		map_of_warehouse[i].resize(n);*/
 
 	for (int i = 0; i < n; i++)
 		map_of_warehouse[0][i] = 1;
@@ -437,6 +471,24 @@ void draw_yellow_rectangle(int x, int y)
 
 	map_of_warehouse[x][y] = 3;
 }
+
+void init_yellowbox()
+{
+	int x, y;
+	cin >> num_yellow;
+	map_of_yellowbox.resize(num_yellow);
+
+	for (int i = 0; i < num_yellow; i++)
+	{
+		cin >> x >> y;
+		map_of_yellowbox[i].push_back(x);
+		map_of_yellowbox[i].push_back(y);
+	}
+
+	for (int i = 0; i < num_yellow; i++)
+		draw_yellow_rectangle(map_of_yellowbox[i][0], map_of_yellowbox[i][1]);
+}
+
 void draw_red_rectangle(int x, int y)
 {
 	rectangle(img,
