@@ -30,7 +30,7 @@ void init_setting()
 	/* 可走的路 = 0, 牆壁 = 1, 圓形 = 2, 黃箱 = 3, 紅箱 = 4 */
 	draw_wall(map_of_warehouse, n);
 	init_worker(6, 3, map_of_worker);
-	draw_yellow_rectangle(7, 3);
+	draw_yellow_rectangle(2, 3);
 	draw_red_rectangle(8, 3);
 }
 void init_map(vector<vector<int>>& map_of_warehouse)
