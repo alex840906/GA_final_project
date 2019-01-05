@@ -1,11 +1,12 @@
 void GA_init_setting();
 void init(vector<vector<int>> &);
-void crossover();
+void crossover(vector<vector<int>>&);
 void selectionD(vector<int> &);
-void fitness(vector<vector<int>> &,int );
+void fitness(vector<vector<int>> &,int , vector<vector<int>> &);
 void mutation(vector<vector<int>> &);
-#define mutation_rate 0.1
-#define limit_path 30
+#define mutation_rate 1
+#define limit_path 15
+#define crossover_rate 0.7
 
 void GA_init_setting()
 {
@@ -18,18 +19,16 @@ void init(vector<vector<int>> &chromosome)
 	int r;
 	for (int i = 0; i < 8; i++)
 	{
-		for (int j = 0; j < 30; j++)
+		for (int j = 0; j < limit_path; j++)
 		{
 			r = rand() % 4;
 			chromosome[i].push_back(r);
 		}
 	}
-
-	/*for (int i = 0; i < 8; i++)
-		fitness_of_chromosome[i].resize(1);*/
+	best_chromosome.resize(limit_path);
 }
 
-void fitness(vector<vector<int>> &map_of_warehouse,int num_of_chromosome)
+void fitness(vector<vector<int>> &map_of_warehouse,int num_of_chromosome , vector<vector<int>> &chromosome)
 {
 	int count=0;
 	vector<vector<int>> distance;
@@ -39,7 +38,7 @@ void fitness(vector<vector<int>> &map_of_warehouse,int num_of_chromosome)
 	for (int i = 0; i < num_red; i++)
 	{
 		int count = 0;
-		if (map_of_warehouse[map_of_redbox[i][0]][map_of_redbox[i][1]] == 4)
+		if (map_of_warehouse[map_of_redbox[i][0]][map_of_redbox[i][1]] == 4 || map_of_warehouse[map_of_redbox[i][0]][map_of_redbox[i][1]]==5)
 		{
 			for (int j = 0; j < 10; j++)
 			{
@@ -71,8 +70,35 @@ void fitness(vector<vector<int>> &map_of_warehouse,int num_of_chromosome)
 
 			map_of_warehouse[x][y] = 0;
 		}
+
+		/*else if (map_of_warehouse[map_of_redbox[i][0]][map_of_redbox[i][1]] == 5)
+		{
+
+		}
+		*/
 	}
+
+
+
 	fitness_of_chromosome[num_of_chromosome]=total_distance;
+
+	if (fitness_of_bestchromosome > fitness_of_chromosome[num_of_chromosome])
+	{
+		fitness_of_bestchromosome = fitness_of_chromosome[num_of_chromosome];
+		for (int i = 0; i < limit_path; i++)
+			best_chromosome[i] = chromosome[num_of_chromosome][i];
+	}
+
+	if (fitness_of_bestchromosome == 0)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			for (int j = 0; j < 10; j++)
+				cout << map_of_warehouse[i][j];
+			cout << endl;
+		}
+	}
+	//cout << "fitness of best" << fitness_of_bestchromosome << endl;
 	cout << total_distance << endl;
 }
 
@@ -100,6 +126,9 @@ void selectionD(vector<int> &fitness_of_chromosome, vector<vector<int>> &chromos
 	int sum_of_fitnee=0;
 	float dart;
 
+	for (int i = 0; i < limit_path; i++)
+		chromosome[7][i] = best_chromosome[i];
+
 	for (int i = 0; i < chromosome.size(); i++)
 		sum_of_fitnee += fitness_of_chromosome[i];
 	
@@ -122,7 +151,7 @@ void selectionD(vector<int> &fitness_of_chromosome, vector<vector<int>> &chromos
 	vector<int> selection_chromosome(8);
 
 	for (int i = 0; i < chromosome.size(); i++)
-	{
+	{ 
 		dart = (double)rand() / RAND_MAX;
 
 		for (int j = 0; j < chromosome.size(); j++)
@@ -140,6 +169,70 @@ void selectionD(vector<int> &fitness_of_chromosome, vector<vector<int>> &chromos
 		for (int j = 0; j < limit_path; j++)
 		{
 			chromosome[i][j] = tmp[selection_chromosome[i]][j];
+		}
+	}
+}
+
+void crossover(vector<vector<int>> &chromosome)
+{
+	int segmentation_point_1, segmentation_point_2;
+	vector<int> index;
+
+	index.resize(chromosome.size());
+	for (int i = 0; i < chromosome.size(); i++)
+		index[i] = i;
+
+	int r_1, r_2;
+	float possibility_to_cross;
+
+	for (int i = 0; i < chromosome.size() / 2; i++)
+	{
+		r_1 = rand() % (index.size());
+		r_2 = rand() % (index.size());
+		while (r_2 == r_1)
+			r_2 = rand() % (index.size());
+
+		segmentation_point_1 = rand() % (limit_path - 1);
+		segmentation_point_2 = rand() % (limit_path - segmentation_point_1 - 1) + segmentation_point_1 + 1;
+
+		possibility_to_cross = (float)rand() / RAND_MAX;
+
+		if (possibility_to_cross < crossover_rate)
+		{
+			int tmp;
+			for (int j = segmentation_point_1 + 1; j <= segmentation_point_2; j++)
+			{
+				tmp = chromosome[index[r_1]][j];
+				chromosome[index[r_1]][j] = chromosome[index[r_2]][j];
+				chromosome[index[r_2]][j] = tmp;
+			}
+
+			r_1 = index[r_1];
+			r_2 = index[r_2];
+			vector<int>::iterator it = index.begin();
+
+			for (; it != index.end();)
+			{
+				if (*it == r_1 || *it == r_2)
+					it = index.erase(it);
+				else
+					++it;
+			}
+		}
+
+		else
+		{
+			r_1 = index[r_1];
+			r_2 = index[r_2];
+			vector<int>::iterator it = index.begin();
+
+			for (; it != index.end();)
+			{
+				if (*it == r_1 || *it == r_2)
+					it = index.erase(it);
+				else
+					++it;
+			}
 		}
 	}
 }

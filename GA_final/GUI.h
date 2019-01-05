@@ -30,7 +30,7 @@ void init_setting()
 	/* 可走的路 = 0, 牆壁 = 1, 圓形 = 2, 黃箱 = 3, 紅箱 = 4 */
 	draw_wall(map_of_warehouse, n);
 	init_worker(6, 3, map_of_worker);
-	draw_yellow_rectangle(2, 3);
+	draw_yellow_rectangle(4, 3);
 	draw_red_rectangle(8, 3);
 }
 void init_map(vector<vector<int>>& map_of_warehouse)
@@ -157,15 +157,21 @@ void update_map_of_warehouse(vector<vector<int>> &map_of_warehouse, vector<int> 
 				draw_purple_rectangle(x - 2, y);
 				draw_rectangle(x - 1, y);
 				draw_circle(x - 1, y);
-				draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
 
-			else
+			else if(map_of_warehouse[x - 2][y] == 0)
 			{
 				draw_yellow_rectangle(x - 2, y);
 				draw_rectangle(x - 1, y);
 				draw_circle(x - 1, y);
-				draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
 		}
 
@@ -173,7 +179,10 @@ void update_map_of_warehouse(vector<vector<int>> &map_of_warehouse, vector<int> 
 		else if (map_of_warehouse[x - 1][y] == 4)
 		{
 			draw_circle(x - 1, y);
-			draw_rectangle(x, y);
+			if (map_of_warehouse[x][y] == 5)
+				draw_red_rectangle(x, y);
+			else
+				draw_rectangle(x, y);
 		}
 
 		/* 上面為紫箱 */
@@ -192,16 +201,22 @@ void update_map_of_warehouse(vector<vector<int>> &map_of_warehouse, vector<int> 
 				draw_purple_rectangle(x - 2, y);
 				draw_red_rectangle(x - 1, y);
 				draw_circle(x - 1, y);
-				draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
-			else
+			else if(map_of_warehouse[x-2][y]==0)
 			{
 				draw_yellow_rectangle(x - 2, y);
 				draw_red_rectangle(x - 1, y);
 				draw_circle(x - 1, y);
-				//draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
-			draw_rectangle(x, y);
+			//draw_rectangle(x, y);
 		}
 	}
 
@@ -233,15 +248,21 @@ void update_map_of_warehouse(vector<vector<int>> &map_of_warehouse, vector<int> 
 				draw_purple_rectangle(x + 2, y);
 				draw_rectangle(x + 1, y);
 				draw_circle(x + 1, y);
-				draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
 
-			else
+			else if(map_of_warehouse[x+2][y]==0)
 			{
 				draw_yellow_rectangle(x + 2, y);
 				draw_rectangle(x + 1, y);
 				draw_circle(x + 1, y);
-				draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
 		}
 
@@ -249,7 +270,10 @@ void update_map_of_warehouse(vector<vector<int>> &map_of_warehouse, vector<int> 
 		else if (map_of_warehouse[x + 1][y] == 4)
 		{
 			draw_circle(x + 1, y);
-			draw_rectangle(x, y);
+			if (map_of_warehouse[x][y] == 5)
+				draw_red_rectangle(x, y);
+			else
+				draw_rectangle(x, y);
 		}
 
 		/* 下面為紫箱 */
@@ -268,16 +292,22 @@ void update_map_of_warehouse(vector<vector<int>> &map_of_warehouse, vector<int> 
 				draw_purple_rectangle(x + 2, y);
 				draw_red_rectangle(x + 1, y);
 				draw_circle(x + 1, y);
-				draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
 			else
 			{
 				draw_yellow_rectangle(x + 2, y);
 				draw_red_rectangle(x + 1, y);
 				draw_circle(x + 1, y);
-				//draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
-			draw_rectangle(x, y);
+			//draw_rectangle(x, y);
 		}
 	}
 	///////////////// 往左走 ///////////////////////
@@ -308,7 +338,10 @@ void update_map_of_warehouse(vector<vector<int>> &map_of_warehouse, vector<int> 
 				draw_purple_rectangle(x, y - 2);
 				draw_rectangle(x, y - 1);
 				draw_circle(x, y - 1);
-				draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
 
 			else
@@ -316,7 +349,10 @@ void update_map_of_warehouse(vector<vector<int>> &map_of_warehouse, vector<int> 
 				draw_yellow_rectangle(x, y - 2);
 				draw_rectangle(x, y - 1);
 				draw_circle(x, y - 1);
-				draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
 		}
 
@@ -324,7 +360,10 @@ void update_map_of_warehouse(vector<vector<int>> &map_of_warehouse, vector<int> 
 		else if (map_of_warehouse[x][y - 1] == 4)
 		{
 			draw_circle(x, y - 1);
-			draw_rectangle(x, y);
+			if (map_of_warehouse[x][y] == 5)
+				draw_red_rectangle(x, y);
+			else
+				draw_rectangle(x, y);
 		}
 
 		/* 左邊為紫箱 */
@@ -343,16 +382,22 @@ void update_map_of_warehouse(vector<vector<int>> &map_of_warehouse, vector<int> 
 				draw_purple_rectangle(x, y - 2);
 				draw_red_rectangle(x, y - 1);
 				draw_circle(x, y - 1);
-				draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
-			else
+			else if(map_of_warehouse[x][y-2]==0)
 			{
 				draw_yellow_rectangle(x, y - 2);
 				draw_red_rectangle(x, y - 1);
 				draw_circle(x, y - 1);
-				//draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
-			draw_rectangle(x, y);
+			//draw_rectangle(x, y);
 		}
 	}
 	//////////////// 往右走 /////////////////
@@ -383,15 +428,21 @@ void update_map_of_warehouse(vector<vector<int>> &map_of_warehouse, vector<int> 
 				draw_purple_rectangle(x, y + 2);
 				draw_rectangle(x, y + 1);
 				draw_circle(x, y + 1);
-				draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
 
-			else
+			else if(map_of_warehouse[x][y+2]==0)
 			{
 				draw_yellow_rectangle(x, y + 2);
 				draw_rectangle(x, y + 1);
 				draw_circle(x, y + 1);
-				draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
 		}
 
@@ -399,7 +450,10 @@ void update_map_of_warehouse(vector<vector<int>> &map_of_warehouse, vector<int> 
 		else if (map_of_warehouse[x][y + 1] == 4)
 		{
 			draw_circle(x, y + 1);
-			draw_rectangle(x, y);
+			if (map_of_warehouse[x][y] == 5)
+				draw_red_rectangle(x, y);
+			else
+				draw_rectangle(x, y);
 		}
 
 		/* 右邊為紫箱 */
@@ -418,16 +472,22 @@ void update_map_of_warehouse(vector<vector<int>> &map_of_warehouse, vector<int> 
 				draw_purple_rectangle(x, y + 2);
 				draw_red_rectangle(x, y + 1);
 				draw_circle(x, y + 1);
-				draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
-			else
+			else if(map_of_warehouse[x][y+2]==0)
 			{
 				draw_yellow_rectangle(x, y + 2);
 				draw_red_rectangle(x, y + 1);
 				draw_circle(x, y + 1);
-				//draw_rectangle(x, y);
+				if (map_of_warehouse[x][y] == 5)
+					draw_red_rectangle(x, y);
+				else
+					draw_rectangle(x, y);
 			}
-			draw_rectangle(x, y);
+			//draw_rectangle(x, y);
 		}
 	}
 }
@@ -440,7 +500,7 @@ void draw_circle(int x, int y)
 	if (map_of_warehouse[x][y] == 4)
 		map_of_warehouse[x][y] = 5;
 
-	else
+	else if(map_of_warehouse[x][y]==0)
 		map_of_warehouse[x][y] = 2;
 
 	map_of_worker[0] = x;
