@@ -71,7 +71,8 @@ int main(int argc, char const *argv[]) {
 				break;
 			fitness(map_of_warehouse, i,chromosome);
 		}
-		selectionD(fitness_of_chromosome, chromosome);
+		//selectionD(fitness_of_chromosome, chromosome);
+		selection_tournament(fitness_of_chromosome, chromosome);
 		crossover(chromosome);
 		mutation(chromosome);
 		iteration++;

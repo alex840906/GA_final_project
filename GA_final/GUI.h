@@ -29,7 +29,7 @@ void init_setting()
 	/* 初始化設定 */
 	/* 可走的路 = 0, 牆壁 = 1, 圓形 = 2, 黃箱 = 3, 紅箱 = 4 */
 	draw_wall(map_of_warehouse, n);
-	init_worker(6, 3, map_of_worker);
+	init_worker(3, 3, map_of_worker);
 	draw_yellow_rectangle(4, 3);
 	draw_red_rectangle(8, 3);
 }

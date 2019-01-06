@@ -1,7 +1,8 @@
 void GA_init_setting();
 void init(vector<vector<int>> &);
 void crossover(vector<vector<int>>&);
-void selectionD(vector<int> &);
+void selection_tournament(vector<int> &, vector<vector<int>> &);
+void selectionD(vector<int> &, vector<vector<int>> &);
 void fitness(vector<vector<int>> &,int , vector<vector<int>> &);
 void mutation(vector<vector<int>> &);
 #define mutation_rate 1
@@ -71,14 +72,7 @@ void fitness(vector<vector<int>> &map_of_warehouse,int num_of_chromosome , vecto
 			map_of_warehouse[x][y] = 0;
 		}
 
-		/*else if (map_of_warehouse[map_of_redbox[i][0]][map_of_redbox[i][1]] == 5)
-		{
-
-		}
-		*/
 	}
-
-
 
 	fitness_of_chromosome[num_of_chromosome]=total_distance;
 
@@ -170,6 +164,40 @@ void selectionD(vector<int> &fitness_of_chromosome, vector<vector<int>> &chromos
 		{
 			chromosome[i][j] = tmp[selection_chromosome[i]][j];
 		}
+	}
+}
+
+void selection_tournament(vector<int> &fitness_of_chromosome, vector<vector<int>> &chromosome)
+{
+	vector<int> tournament(3);
+	vector<vector<int>> tmp;
+	int fitness_best_chromosome=100;
+	int winner;
+
+	for (int i = 0; i < limit_path; i++)
+		chromosome[7][i] = best_chromosome[i];
+
+	tmp.assign(chromosome.begin(),chromosome.end());
+	
+	for (int i = 0; i < chromosome.size(); i++)
+	{
+		fitness_best_chromosome = 100;
+		for (int j = 0; j < tournament.size(); j++)
+			tournament[j] = rand() % chromosome.size();
+
+		for (int j = 0; j < tournament.size(); j++)
+		{
+			if (fitness_best_chromosome > fitness_of_chromosome[tournament[j]])
+			{
+				fitness_best_chromosome = fitness_of_chromosome[tournament[j]];
+				winner = tournament[j];
+			}
+		}
+		for (int j = 0; j < limit_path; j++)
+		{
+			chromosome[i][j] = tmp[winner][j];
+		}
+		
 	}
 }
 
